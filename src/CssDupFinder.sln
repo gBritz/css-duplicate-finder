@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CssDupFinder", "CssDupFinder\CssDupFinder.csproj", "{68BEDF44-36BD-43F0-9FC3-D71003D67BA6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CssDupFinder.Test", "CssDupFinder.Test\CssDupFinder.Test.csproj", "{A6A1D1A6-32FF-4FAA-B7F6-D0D3CC601BF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{68BEDF44-36BD-43F0-9FC3-D71003D67BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68BEDF44-36BD-43F0-9FC3-D71003D67BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68BEDF44-36BD-43F0-9FC3-D71003D67BA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6A1D1A6-32FF-4FAA-B7F6-D0D3CC601BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6A1D1A6-32FF-4FAA-B7F6-D0D3CC601BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6A1D1A6-32FF-4FAA-B7F6-D0D3CC601BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6A1D1A6-32FF-4FAA-B7F6-D0D3CC601BF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
