@@ -1,0 +1,17 @@
+version: 0.1.{build}
+
+skip_tags: true
+
+configuration: Release
+
+branches:
+  only:
+  - master
+  - develop
+
+before_build:
+  - nuget restore src\CssDupFinder.sln
+
+build:
+  project: src\CssDupFinder.sln
+  verbosity: minimal
