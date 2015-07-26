@@ -1,5 +1,4 @@
 ﻿using CssDupFinder.Commands;
-using CssDupFinder.DiscoveryModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
