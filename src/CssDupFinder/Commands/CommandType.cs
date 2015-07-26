@@ -5,7 +5,7 @@
         None = 'n',
         Discovery = 'd',
         Purge = 'p',
-        Find = 'f',
+        FindDuplicates = 'f',
         Version = 'v',
         Help = 'h'
     }

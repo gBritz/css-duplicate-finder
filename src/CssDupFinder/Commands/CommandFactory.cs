@@ -16,7 +16,7 @@ namespace CssDupFinder.Commands
                 case CommandType.Purge:
                     return new LiteralCommand("Not implemented", CommandType.Purge);
 
-                case CommandType.Find:
+                case CommandType.FindDuplicates:
                     return new LiteralCommand("Not implemented", CommandType.Version);
 
                 case CommandType.Version:
