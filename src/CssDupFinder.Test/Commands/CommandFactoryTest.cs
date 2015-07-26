@@ -14,7 +14,7 @@ namespace CssDupFinder.Test
         {
             var commands = Enum.GetValues(typeof(CommandType))
                 .OfType<CommandType>();
-            var args = new ArgumentParser(new String[0]);
+            var args = ArgumentParserTest.MockInstance();
 
             foreach (var cmd in commands)
             {

@@ -1,6 +1,8 @@
 ﻿using CssDupFinder.Commands;
+using CssDupFinder.DiscoveryModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Linq;
 
@@ -57,6 +59,28 @@ namespace CssDupFinder.Test
         {
             var parser = new ArgumentParser(argsToDiscovery);
             parser.Output.Should().Be("c:\\css-dup-finder\\discovery.json");
+        }
+
+        [TestMethod]
+        public void AllPropertiesShouldBeVirtualToMockingValues()
+        {
+            foreach (var prop in typeof(ArgumentParser).GetProperties())
+                prop.GetGetMethod().IsVirtual.Should().BeTrue();
+        }
+
+        public static ArgumentParser MockInstance()
+        {
+            var argsMock = new Mock<ArgumentParser>(new Object[] { new String[0] });
+            argsMock.Setup(a => a.Folder)
+                .Returns("c:\\");
+            argsMock.Setup(a => a.Output)
+                .Returns("c:\\");
+            argsMock.Setup(a => a.DiscoveredFullPath)
+                .Returns("c:\\discovery.json");
+            argsMock.Setup(a => a.Command)
+                .Returns(CommandType.None);
+
+            return argsMock.Object;
         }
     }
 }
