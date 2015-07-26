@@ -1,4 +1,5 @@
 ﻿using CssDupFinder.Extensions;
+using System;
 
 namespace CssDupFinder.Commands
 {
@@ -11,22 +12,22 @@ namespace CssDupFinder.Commands
             switch (type)
             {
                 case CommandType.Discovery:
-                    return new LiteralCommand("Not implemented", CommandType.Discovery);
+                    return new WriteCommand("Not implemented", CommandType.Discovery, Console.Out);
 
                 case CommandType.Purge:
-                    return new LiteralCommand("Not implemented", CommandType.Purge);
+                    return new WriteCommand("Not implemented", CommandType.Purge, Console.Out);
 
                 case CommandType.FindDuplicates:
-                    return new LiteralCommand("Not implemented", CommandType.Version);
+                    return new WriteCommand("Not implemented", CommandType.FindDuplicates, Console.Out);
 
                 case CommandType.Version:
-                    return new LiteralCommand("0.0.0-15-alpha (experimental version)", CommandType.Version);
+                    return new WriteCommand("0.0.0-15-alpha (experimental version)", CommandType.Version, Console.Out);
 
                 case CommandType.Help:
-                    return new LiteralCommand("Help!!!", CommandType.Help);
+                    return new WriteCommand("Help!!!", CommandType.Help, Console.Out);
 
                 default:
-                    return new LiteralCommand("Invalid command", CommandType.None);
+                    return new WriteCommand("Invalid command", CommandType.None, Console.Out);
             }
         }
     }

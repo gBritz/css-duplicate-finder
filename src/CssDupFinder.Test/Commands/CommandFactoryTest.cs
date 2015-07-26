@@ -18,8 +18,10 @@ namespace CssDupFinder.Test
 
             foreach (var cmd in commands)
             {
-                CommandFactory.CreateInstanceOf(cmd, args)
-                    .Should().NotBeNull();
+                var instance = CommandFactory.CreateInstanceOf(cmd, args);
+                    
+                instance.Should().NotBeNull();
+                instance.Type.Should().Be(cmd);
             }
         }
 
