@@ -1,4 +1,5 @@
 ﻿using CssDupFinder.Commands;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
@@ -24,35 +25,38 @@ namespace CssDupFinder.Test
                 args[0] = "-" + ((Char)cmd).ToString();
                 var parser = new ArgumentParser(args);
 
-                Assert.IsTrue(parser.Command == cmd);
+                parser.Command.Should().Be(cmd);
             }
         }
 
         [TestMethod]
-        public void ShouldThrowIfArgumentIsNullOrEmpty()
+        public void ShouldThrowIfArgumentIsNull()
         {
-            Assert.Fail("TODO:...");
+            Action argsIsNull = () => new ArgumentParser(null);
+
+            argsIsNull.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.Should().Be("arguments");
         }
 
         [TestMethod]
         public void DiscoveryFullPathShouldNotBeNull()
         {
             var parser = new ArgumentParser(argsToFind);
-            Assert.IsTrue(parser.DiscoveredFullPath == "c:\\css-dup-finder\\discovery.json");
+            parser.DiscoveredFullPath.Should().Be("c:\\css-dup-finder\\discovery.json");
         }
 
         [TestMethod]
         public void FolderShouldNotBeNull()
         {
             var parser = new ArgumentParser(argsToDiscovery);
-            Assert.IsTrue(parser.Folder == "c:\\workspace-project\\web");
+            parser.Folder.Should().Be("c:\\workspace-project\\web");
         }
 
         [TestMethod]
         public void OutputShouldNotBeNull()
         {
             var parser = new ArgumentParser(argsToDiscovery);
-            Assert.IsTrue(parser.Output == "c:\\css-dup-finder\\discovery.json");
+            parser.Output.Should().Be("c:\\css-dup-finder\\discovery.json");
         }
     }
 }
