@@ -1,4 +1,5 @@
-﻿using CssDupFinder.Extensions;
+﻿using CssDupFinder.Commands;
+using CssDupFinder.Extensions;
 using System;
 using System.IO;
 

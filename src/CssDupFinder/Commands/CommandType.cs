@@ -1,4 +1,4 @@
-﻿namespace CssDupFinder
+﻿namespace CssDupFinder.Commands
 {
     public enum CommandType
     {
