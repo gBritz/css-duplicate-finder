@@ -1,5 +1,7 @@
 ﻿using CssDupFinder.Commands;
 using CssDupFinder.Extensions;
+using CssDupFinder.Models;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -8,6 +10,7 @@ namespace CssDupFinder
     public class ArgumentParser
     {
         private readonly String[] args;
+        private DiscoveryModel config;
 
         public ArgumentParser(String[] arguments)
         {
@@ -34,6 +37,16 @@ namespace CssDupFinder
         public virtual CommandType Command
         {
             get { return (CommandType)args[0][1]; }
+        }
+
+        public virtual DiscoveryModel Config
+        {
+            get
+            {
+                if (config == null)
+                    config = JsonConvert.DeserializeObject<DiscoveryModel>(File.ReadAllText(DiscoveredFullPath));
+                return config;
+            }
         }
     }
 }

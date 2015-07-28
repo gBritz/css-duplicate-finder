@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="ArgumentParserTest.cs" />
     <Compile Include="Commands\CommandFactoryTest.cs" />
+    <Compile Include="Commands\DuplicateFinderCommandTest.cs" />
     <Compile Include="Commands\WriteCommandTest.cs" />
     <Compile Include="CssDuplicateWalkerTest.cs">
       <SubType>Code</SubType>
@@ -74,6 +75,7 @@
     <Compile Include="CssWalkerExtension.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\DashboardReportModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

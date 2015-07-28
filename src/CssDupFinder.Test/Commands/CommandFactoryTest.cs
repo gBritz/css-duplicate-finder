@@ -31,5 +31,13 @@ namespace CssDupFinder.Test
             Action method = () => CommandFactory.CreateInstanceOf(CommandType.None, null);
             method.ShouldThrow<ArgumentNullException>("arguments");
         }
+
+        [TestMethod]
+        public void WhenCommandTypeIsFindDuplicates_InstanceShouldBeDuplicateFinderCommand()
+        {
+            var args = ArgumentParserTest.MockInstance();
+            CommandFactory.CreateInstanceOf(CommandType.FindDuplicates, args)
+                .Should().BeOfType<DuplicateFinderCommand>();
+        }
     }
 }

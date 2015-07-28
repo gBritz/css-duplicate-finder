@@ -1,4 +1,5 @@
 ﻿using CssDupFinder.Commands;
+using CssDupFinder.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -78,6 +79,11 @@ namespace CssDupFinder.Test
                 .Returns("c:\\discovery.json");
             argsMock.Setup(a => a.Command)
                 .Returns(CommandType.None);
+            argsMock.Setup(a => a.Config)
+                .Returns(new DiscoveryModel
+                {
+                    Files = new FolderContentModel[0]
+                });
 
             return argsMock.Object;
         }

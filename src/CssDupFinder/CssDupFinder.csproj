@@ -32,8 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CssSyntax">
+    <Reference Include="CssSyntax, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CssSyntax.0.1.0\lib\CssSyntax.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,11 +48,15 @@
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandType.cs" />
     <Compile Include="ArgumentParser.cs" />
+    <Compile Include="Commands\DuplicateFinderCommand.cs" />
     <Compile Include="Commands\ICommand.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\WriteCommand.cs" />
     <Compile Include="CssDuplicateWalker.cs" />
+    <Compile Include="Models\DashboardReportModel.cs" />
+    <Compile Include="Models\DiscoveryModel.cs" />
+    <Compile Include="Models\FolderContentModel.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Models\CssSelectorModel.cs" />
@@ -57,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

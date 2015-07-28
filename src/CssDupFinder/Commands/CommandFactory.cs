@@ -18,7 +18,7 @@ namespace CssDupFinder.Commands
                     return new WriteCommand("Not implemented", CommandType.Purge, Console.Out);
 
                 case CommandType.FindDuplicates:
-                    return new WriteCommand("Not implemented", CommandType.FindDuplicates, Console.Out);
+                    return new DuplicateFinderCommand(args.Folder, args.Config.Files);
 
                 case CommandType.Version:
                     return new WriteCommand("0.0.0-15-alpha (experimental version)", CommandType.Version, Console.Out);
