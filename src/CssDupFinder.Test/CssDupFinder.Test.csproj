@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CssSyntax, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CssSyntax.0.1.0\lib\CssSyntax.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.3.4.1\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
@@ -63,6 +67,13 @@
   <ItemGroup>
     <Compile Include="ArgumentParserTest.cs" />
     <Compile Include="Commands\CommandFactoryTest.cs" />
+    <Compile Include="Commands\WriteCommandTest.cs" />
+    <Compile Include="CssDuplicateWalkerTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CssWalkerExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
