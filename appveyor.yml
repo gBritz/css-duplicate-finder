@@ -25,7 +25,7 @@ build:
   verbosity: minimal
 
 test_script:
-  - OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" -targetargs:"\"src\CssDupFinder.Test\bin\Release\CssDupFinder.Tests.dll\" /logger:Appveyor" -skipautoprops -filter:"+[CssDupFinder*]*" -output:coverage.xml
+  - OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" -targetargs:"\"src\CssDupFinder.Test\bin\Release\CssDupFinder.Test.dll\" /logger:Appveyor" -skipautoprops -filter:"+[CssDupFinder*]*" -output:coverage.xml
   - coveralls.net --opencover coverage.xml
 
 artifacts:
