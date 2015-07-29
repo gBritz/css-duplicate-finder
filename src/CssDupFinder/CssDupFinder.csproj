@@ -36,7 +36,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CssSyntax.0.1.0\lib\CssSyntax.dll</HintPath>
     </Reference>
-    <Reference Include="DiffPlex">
+    <Reference Include="DiffPlex, Version=1.2.0.0, Culture=neutral, PublicKeyToken=1d35e91d1bd7bc0f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DiffPlex.1.2.1\lib\portable-net40+sl50+win+wpa81+wp80\DiffPlex.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
