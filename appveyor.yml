@@ -4,10 +4,18 @@ skip_tags: true
 
 configuration: Release
 
+install:
+  - cinst opencover -source https://nuget.org/api/v2/
+  - cinst coveralls.io -source https://nuget.org/api/v2/
+
 branches:
   only:
   - master
   - develop
+
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: t+6O9XMbLxt8rZlIgroLlMqoKBgq2bnMJDjoEXl7PjUbVouUbdTMM1FnmkaegYWB
 
 before_build:
   - nuget restore src\CssDupFinder.sln
@@ -15,3 +23,10 @@ before_build:
 build:
   project: src\CssDupFinder.sln
   verbosity: minimal
+
+test_script:
+  - OpenCover.Console.exe -register:user -target:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" -targetargs:"\"src\CssDupFinder.Test\bin\Release\CssDupFinder.Tests.dll\" /logger:Appveyor" -skipautoprops -filter:"+[CssDupFinder*]*" -output:coverage.xml
+  - coveralls.net --opencover coverage.xml
+
+artifacts:
+  - path: coverage.xml
