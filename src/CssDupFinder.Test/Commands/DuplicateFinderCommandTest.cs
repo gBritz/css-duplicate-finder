@@ -13,8 +13,8 @@ namespace CssDupFinder.Test.Commands
         [TestMethod]
         public void ShouldThrowIfOutputDirectoryIsNullOrEmpty()
         {
-            Action isNull = () => new DuplicateFinderCommand(null, null);
-            Action isEmpty = () => new DuplicateFinderCommand(String.Empty, null);
+            Action isNull = () => new DuplicateFinderCommand(null, null, new ReportGenerator());
+            Action isEmpty = () => new DuplicateFinderCommand(String.Empty, null, new ReportGenerator());
 
             isNull.ShouldThrow<ArgumentNullException>()
                 .And.ParamName.Should().Be("outputDirectory");
@@ -25,7 +25,7 @@ namespace CssDupFinder.Test.Commands
         [TestMethod]
         public void ShouldThrowIfOutputDirectoryNotFound()
         {
-            Action notFound = () => new DuplicateFinderCommand("z:\\asdçlfjasfj\\asçldfjadçl", new FolderContentModel[0]);
+            Action notFound = () => new DuplicateFinderCommand("z:\\asdçlfjasfj\\asçldfjadçl", new FolderContentModel[0], new ReportGenerator());
             
             var expt = notFound.ShouldThrow<ArgumentException>().Which;
                
@@ -36,10 +36,19 @@ namespace CssDupFinder.Test.Commands
         [TestMethod]
         public void ShouldThrowIfCssConfigIsNull()
         {
-            Action isNull = () => new DuplicateFinderCommand("c:\\", null);
+            Action isNull = () => new DuplicateFinderCommand("c:\\", null, new ReportGenerator());
 
             isNull.ShouldThrow<ArgumentNullException>()
                 .And.ParamName.Should().Be("folders");
+        }
+
+        [TestMethod]
+        public void ShouldThrowIfReportGeneratorIsNull()
+        {
+            Action isNull = () => new DuplicateFinderCommand("c:\\", new FolderContentModel[0], null);
+
+            isNull.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.Should().Be("generator");
         }
     }
 }

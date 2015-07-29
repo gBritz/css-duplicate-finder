@@ -82,7 +82,7 @@ namespace CssDupFinder.Test
             argsMock.Setup(a => a.Config)
                 .Returns(new DiscoveryModel
                 {
-                    Files = new FolderContentModel[0]
+                    Folders = new FolderContentModel[0]
                 });
 
             return argsMock.Object;

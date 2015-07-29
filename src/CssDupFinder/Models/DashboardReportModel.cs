@@ -17,6 +17,11 @@ namespace CssDupFinder.Models
 
         public Int32 TotalDuplicated { get; private set; }
 
+        public Decimal DuplicatePercentage
+        {
+            get { return (TotalDuplicated * 100) / (TotalSelectors <= 0 ? 1 : TotalSelectors); }
+        }
+
         public void AddAnalysis(String link, Int32 countSelectors, Int32 countDuplicated)
         {
             link.ThrowIfNull("link");

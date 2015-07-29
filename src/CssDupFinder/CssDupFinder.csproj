@@ -36,13 +36,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CssSyntax.0.1.0\lib\CssSyntax.dll</HintPath>
     </Reference>
+    <Reference Include="DiffPlex">
+      <HintPath>..\packages\DiffPlex.1.2.1\lib\portable-net40+sl50+win+wpa81+wp80\DiffPlex.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandFactory.cs" />
@@ -54,6 +56,7 @@
     </Compile>
     <Compile Include="Commands\WriteCommand.cs" />
     <Compile Include="CssDuplicateWalker.cs" />
+    <Compile Include="Models\CssFileReportModel.cs" />
     <Compile Include="Models\DashboardReportModel.cs" />
     <Compile Include="Models\DiscoveryModel.cs" />
     <Compile Include="Models\FolderContentModel.cs" />
@@ -63,12 +66,46 @@
     <Compile Include="Models\RangePositionModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\CssFileReportTemplate.generated.cs">
+      <DependentUpon>CssFileReportTemplate.cshtml</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Templates\DashboardReportTemplate.generated.cs">
+      <DependentUpon>DashboardReportTemplate.cshtml</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Templates\HelperResult.cs" />
+    <Compile Include="Templates\TemplateBaseWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Templates\CssFileReportTemplate.cshtml">
+      <SubType>Code</SubType>
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CssFileReportTemplate.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\DashboardReportTemplate.cshtml">
+      <SubType>Code</SubType>
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DashboardReportTemplate.generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Content\diff.css" />
+    <EmbeddedResource Include="Content\diff.js" />
+    <EmbeddedResource Include="Content\jquery-1.4.1.min.js" />
+    <EmbeddedResource Include="Content\main.css" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

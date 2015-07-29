@@ -4,7 +4,7 @@ namespace CssDupFinder.Models
 {
     public class DiscoveryModel
     {
-        public FolderContentModel[] Files { get; set; }
+        public FolderContentModel[] Folders { get; set; }
 
         public Int32 Count { get; set; }
 

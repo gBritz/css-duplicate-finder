@@ -1,0 +1,105 @@
+@* Generator: Template GeneratePrettyNames: true *@
+
+@using CssDupFinder.Models;
+@using CssDupFinder.Templates;
+@using DiffPlex.DiffBuilder.Model;
+@using System.IO;
+
+@inherits TemplateBaseWriter<CssFileReportModel>
+
+@functions {
+    public CssFileReportTemplate(TextWriter writer, CssFileReportModel model): base(writer, model) {}
+}
+
+@helper DiffLine(DiffPiece line)
+{
+    var spaceValue = "\u00B7";
+    var tabValue = "\u00B7\u00B7";
+
+    if (line.Type == ChangeType.Deleted || line.Type == ChangeType.Inserted || line.Type == ChangeType.Unchanged)
+    {
+        @(line.Text.Replace(" ", spaceValue).Replace("\t", tabValue))
+    }
+    else if (line.Type == ChangeType.Modified)
+    {
+        foreach (var character in line.SubPieces)
+        {
+            if (character.Type != ChangeType.Imaginary)
+            {
+                <span class="@(character.Type)Character">
+                    @(character.Text.Replace(" ", spaceValue.ToString()))
+                </span>
+            }
+        }
+    }
+}
+
+@helper DiffPane(DiffPaneModel pane)
+{
+    <div class="diffPane">
+        <table cellpadding="0" cellspacing="0" class="diffTable">
+            @foreach (var line in pane.Lines)
+            {
+                <tr>
+                    <td class="lineNumber">@(line.Position.HasValue ? line.Position.GetValueOrDefault().ToString() : "&nbsp;")</td>
+                    <td class="line@(line.Type)Line">
+                        <span class="lineText">
+                            @if (!String.IsNullOrEmpty(line.Text))
+                            {
+                                @DiffLine(line)
+                            }
+                        </span>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Duplicate Finder</title>
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <link href="css/diff.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="mainContent">
+        <div id="resume">
+            <h1> Resumo </h1>
+            <div>@("Arquivo: ") @Model.FileFullPath</div>
+            <div>@("Total de seletores: ") @Model.TotalSelectors</div>
+            <div>@("Total de seletores duplicados: ") @Model.TotalDuplicates</div>
+            <div>@("Duplicados no arquivo: ") @Model.DuplicatePercentage</div>
+        </div>
+
+        @foreach (var block in Model.Blocks)
+        {
+            <div class="diffBox">
+                <div>@(block.CountDuplicates)@("  duplicados.")</div>
+
+                <div id="leftPane">
+                    <div class="diffHeader">Old Text</div>
+                    @DiffPane(block.Diff.OldText)
+                </div>
+                <div id="rightPane">
+                    <div class="diffHeader">New Text</div>
+                    @DiffPane(block.Diff.NewText)
+                </div>
+                <div class="clear"></div>
+            </div>
+        }
+    </div>
+
+    <script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+    <script type="text/javascript" src="js/diff.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            InitializeDiffPanes();
+        });
+    </script>
+</body>
+</html>
