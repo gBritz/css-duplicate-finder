@@ -85,5 +85,27 @@ namespace CssDupFinder.Test
 
             walker.Duplicates.Should().BeEmpty();
         }
+
+        [TestMethod]
+        public void Test()
+        {
+            var walker = @"
+@media only screen {
+    #single-modal {
+        color: red;
+    }
+}
+@media only screen {
+    #single-modal {
+        color: red;
+    }
+}".Interpret<CssDuplicateWalker>();
+
+            walker.Duplicates.Should().HaveCount(1);
+
+            var list = walker.Duplicates.First().Value;
+
+            list.Should().HaveCount(2);
+        }
     }
 }
