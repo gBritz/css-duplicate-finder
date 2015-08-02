@@ -46,11 +46,16 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Abstractions, Version=2.0.0.116, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.2.0.0.116\lib\net40\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandType.cs" />
     <Compile Include="ArgumentParser.cs" />
+    <Compile Include="Commands\DiscoveryCommand.cs" />
     <Compile Include="Commands\DuplicateFinderCommand.cs" />
     <Compile Include="Commands\ICommand.cs">
       <SubType>Code</SubType>

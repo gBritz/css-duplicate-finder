@@ -1,5 +1,6 @@
 ﻿using CssDupFinder.Extensions;
 using System;
+using System.IO.Abstractions;
 
 namespace CssDupFinder.Commands
 {
@@ -12,7 +13,7 @@ namespace CssDupFinder.Commands
             switch (type)
             {
                 case CommandType.Discovery:
-                    return new WriteCommand("Not implemented", CommandType.Discovery, Console.Out);
+                    return new DiscoveryCommand(args.Folder, args.Output, new FileSystem());
 
                 case CommandType.Purge:
                     return new WriteCommand("Not implemented", CommandType.Purge, Console.Out);
