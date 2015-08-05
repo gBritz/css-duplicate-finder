@@ -11,28 +11,61 @@ namespace CssDupFinder
 {
     public class CssDuplicateWalker : CssWalker
     {
-        private readonly IDictionary<String, List<CssSelectorModel>> selectors = new Dictionary<String, List<CssSelectorModel>>();
         private readonly StringBuilder text = new StringBuilder();
 
-        private CssSelectorModel current;
+        private readonly List<CssAtRuleModel> rules = new List<CssAtRuleModel>();
+        private readonly List<CssSelectorModel> selectors = new List<CssSelectorModel>();
+
+        private CssAtRuleModel currentRule;
+        private CssSelectorModel currentSelector;
+        private Int32 order;
 
         public IDictionary<String, List<CssSelectorModel>> Duplicates
         {
-            get { return selectors.Where(s => s.Value.Count() > 1).ToDictionary(s => s.Key, s => s.Value); }
+            //get { return selectors.Where(s => s.Value.Count() > 1).ToDictionary(s => s.Key, s => s.Value); }
+            get
+            {
+                return selectors.GroupBy(s => s.Name)
+                    .Where(g => g.Count() > 1)
+                    .ToDictionary(g => g.Key, g => g.ToList());
+            }
         }
 
         public Int32 CountSelectors { get; private set; }
 
         public Int32 CountDuplicates { get; private set; }
 
+        protected override void VisitBeginAtRule(string selector, int line, int column)
+        {
+            order++;
+            selector = selector.Trim();
+            var rule = rules.FirstOrDefault(r => r.Name == selector);
+            currentRule = rule ?? new CssAtRuleModel(selector) { Order = order };
+            if (rule == null)
+                rules.Add(currentRule);
+        }
+
+        protected override void VisitEndAtRule(string selector, int line, int column)
+        {
+            currentRule = null;
+        }
+
         protected override void VisitBeginSelector(string selector, int line, int column)
         {
-            CountSelectors++;
-            if (selectors.ContainsKey(selector))
-                CountDuplicates++;
+            order++;
+            selector = selector.Trim();
+            var sels = currentRule != null ? currentRule.Selectors : selectors;
+            var select = sels.FirstOrDefault(s => s.Name == selector);
+            currentSelector = select ?? new CssSelectorModel(selector) { Order = order };
+            currentSelector.Position.Start = new Position(line, column);
 
-            current = new CssSelectorModel();
-            current.Position.Start = new Position(line, column);
+            CountSelectors++;
+
+            if (select == null)
+            {
+                sels.Add(currentSelector);
+                CountSelectors++;
+            }
 
             text.Append(Environment.NewLine);
             text.Append(selector);
@@ -44,12 +77,10 @@ namespace CssDupFinder
             text.Append(Environment.NewLine);
             text.Append('}');
 
-            current.Position.End = new Position(line, column);
-            current.Text = text.ToString();
+            currentSelector.Position.End = new Position(line, column);
+            currentSelector.Text = text.ToString();
 
-            selectors.GetOrNew(selector).Add(current);
-
-            current = null;
+            currentSelector = null;
             text.Clear();
         }
 

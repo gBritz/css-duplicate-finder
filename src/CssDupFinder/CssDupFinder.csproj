@@ -55,13 +55,20 @@
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\CommandType.cs" />
     <Compile Include="ArgumentParser.cs" />
-    <Compile Include="Commands\DiscoveryCommand.cs" />
-    <Compile Include="Commands\DuplicateFinderCommand.cs" />
+    <Compile Include="Commands\DiscoveryCommand.cs">
+      <DependentUpon>ICommand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Commands\DuplicateFinderCommand.cs">
+      <DependentUpon>ICommand.cs</DependentUpon>
+    </Compile>
     <Compile Include="Commands\ICommand.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\WriteCommand.cs" />
+    <Compile Include="Commands\WriteCommand.cs">
+      <DependentUpon>ICommand.cs</DependentUpon>
+    </Compile>
     <Compile Include="CssDuplicateWalker.cs" />
+    <Compile Include="Models\CssAtRuleModel.cs" />
     <Compile Include="Models\CssFileReportModel.cs" />
     <Compile Include="Models\DashboardReportModel.cs" />
     <Compile Include="Models\DiscoveryModel.cs" />
