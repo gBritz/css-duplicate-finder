@@ -2,6 +2,7 @@
 using CssDupFinder.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShellProgress;
 using System;
 using System.IO;
 
@@ -13,8 +14,8 @@ namespace CssDupFinder.Test.Commands
         [TestMethod]
         public void ShouldThrowIfOutputDirectoryIsNullOrEmpty()
         {
-            Action isNull = () => new DuplicateFinderCommand(null, null, new ReportGenerator());
-            Action isEmpty = () => new DuplicateFinderCommand(String.Empty, null, new ReportGenerator());
+            Action isNull = () => new DuplicateFinderCommand(null, null, new ReportGenerator(), new ProgressBarFactory());
+            Action isEmpty = () => new DuplicateFinderCommand(String.Empty, null, new ReportGenerator(), new ProgressBarFactory());
 
             isNull.ShouldThrow<ArgumentNullException>()
                 .And.ParamName.Should().Be("outputDirectory");
@@ -25,7 +26,7 @@ namespace CssDupFinder.Test.Commands
         [TestMethod]
         public void ShouldThrowIfOutputDirectoryNotFound()
         {
-            Action notFound = () => new DuplicateFinderCommand("z:\\asdçlfjasfj\\asçldfjadçl", new FolderContentModel[0], new ReportGenerator());
+            Action notFound = () => new DuplicateFinderCommand("z:\\asdçlfjasfj\\asçldfjadçl", new FolderContentModel[0], new ReportGenerator(), new ProgressBarFactory());
             
             var expt = notFound.ShouldThrow<ArgumentException>().Which;
                
@@ -36,7 +37,7 @@ namespace CssDupFinder.Test.Commands
         [TestMethod]
         public void ShouldThrowIfCssConfigIsNull()
         {
-            Action isNull = () => new DuplicateFinderCommand("c:\\", null, new ReportGenerator());
+            Action isNull = () => new DuplicateFinderCommand("c:\\", null, new ReportGenerator(), new ProgressBarFactory());
 
             isNull.ShouldThrow<ArgumentNullException>()
                 .And.ParamName.Should().Be("folders");
@@ -45,7 +46,7 @@ namespace CssDupFinder.Test.Commands
         [TestMethod]
         public void ShouldThrowIfReportGeneratorIsNull()
         {
-            Action isNull = () => new DuplicateFinderCommand("c:\\", new FolderContentModel[0], null);
+            Action isNull = () => new DuplicateFinderCommand("c:\\", new FolderContentModel[0], null, new ProgressBarFactory());
 
             isNull.ShouldThrow<ArgumentNullException>()
                 .And.ParamName.Should().Be("generator");

@@ -1,6 +1,7 @@
 ﻿using CssDupFinder.Extensions;
 using CssDupFinder.Models;
 using Newtonsoft.Json;
+using ShellProgress;
 using System;
 using System.IO;
 using System.IO.Abstractions;
@@ -14,16 +15,21 @@ namespace CssDupFinder.Commands
         private readonly String topFolder;
         private readonly String outputDiscoveryResult;
         private readonly IFileSystem fileSystem;
+        private readonly IProgressFactory progressFactory;
 
-        public DiscoveryCommand(String topFolder, String outputDiscoveryResult, IFileSystem fileSystem)
+        private IProgressing progress;
+
+        public DiscoveryCommand(String topFolder, String outputDiscoveryResult, IFileSystem fileSystem, IProgressFactory progressFactory)
         {
             topFolder.ThrowIfNull("topFolder");
             outputDiscoveryResult.ThrowIfNull("outputDiscoveryResult");
             fileSystem.ThrowIfNull("fileSystem");
+            progressFactory.ThrowIfNull("progressFactory");
 
             this.topFolder = topFolder;
             this.outputDiscoveryResult = outputDiscoveryResult;
             this.fileSystem = fileSystem;
+            this.progressFactory = progressFactory;
         }
 
         public CommandType Type
@@ -35,18 +41,23 @@ namespace CssDupFinder.Commands
         {
             var allFiles = fileSystem.Directory.GetFiles(topFolder, "*.css", SearchOption.AllDirectories);
 
-            var folders = allFiles.Select(f =>
-                new
+            this.progress = progressFactory.CreateInstance(allFiles.Length);
+
+            var folders = allFiles.Select((f, i) =>
                 {
-                    folder = Path.GetDirectoryName(f),
-                    file = Path.GetFileName(f)
+                    progress.Update(i);
+                    return new
+                    {
+                        folder = Path.GetDirectoryName(f),
+                        file = Path.GetFileName(f)
+                    };
                 })
                 .GroupBy(x => x.folder)
                 .Select(g => new FolderContentModel
-                {
-                    Name = g.Key,
-                    FileNames = g.Select(gr => gr.file).ToArray()
-                })
+                    {
+                        Name = g.Key,
+                        FileNames = g.Select(gr => gr.file).ToArray()
+                    })
                 .ToArray();
 
             return new DiscoveryModel
@@ -69,6 +80,9 @@ namespace CssDupFinder.Commands
 
             var json = JsonConvert.SerializeObject(model, Formatting.Indented);
             fileSystem.File.WriteAllText(outputDiscoveryResult, json, Encoding.UTF8);
+
+            if (progress != null)
+                progress.Complete();
         }
     }
 }

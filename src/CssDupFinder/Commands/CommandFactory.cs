@@ -1,4 +1,5 @@
 ﻿using CssDupFinder.Extensions;
+using ShellProgress;
 using System;
 using System.IO.Abstractions;
 
@@ -13,13 +14,13 @@ namespace CssDupFinder.Commands
             switch (type)
             {
                 case CommandType.Discovery:
-                    return new DiscoveryCommand(args.Folder, args.Output, new FileSystem());
+                    return new DiscoveryCommand(args.Folder, args.Output, new FileSystem(), new ProgressBarFactory());
 
                 case CommandType.Purge:
                     return new WriteCommand("Not implemented", CommandType.Purge, Console.Out);
 
                 case CommandType.FindDuplicates:
-                    return new DuplicateFinderCommand(args.Folder, args.Config.Folders, new ReportGenerator());
+                    return new DuplicateFinderCommand(args.Folder, args.Config.Folders, new ReportGenerator(), new ProgressBarFactory());
 
                 case CommandType.Version:
                     return new WriteCommand("0.0.0-15-alpha (experimental version)", CommandType.Version, Console.Out);

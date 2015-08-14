@@ -2,6 +2,7 @@
 using CssDupFinder.Models;
 using DiffPlex;
 using DiffPlex.DiffBuilder;
+using ShellProgress;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,12 +14,14 @@ namespace CssDupFinder.Commands
         private readonly String outputDirectory;
         private readonly FolderContentModel[] folders;
         private readonly ReportGenerator generator;
+        private readonly IProgressFactory progressFactory;
 
-        public DuplicateFinderCommand(String outputDirectory, FolderContentModel[] folders, ReportGenerator generator)
+        public DuplicateFinderCommand(String outputDirectory, FolderContentModel[] folders, ReportGenerator generator, IProgressFactory progressFactory)
         {
             outputDirectory.ThrowIfNull("outputDirectory");
             folders.ThrowIfNull("folders");
             generator.ThrowIfNull("generator");
+            progressFactory.ThrowIfNull("progressFactory");
 
             if (!Directory.Exists(outputDirectory))
             {
@@ -29,6 +32,7 @@ namespace CssDupFinder.Commands
             this.outputDirectory = outputDirectory;
             this.folders = folders;
             this.generator = generator;
+            this.progressFactory = progressFactory;
         }
 
         public CommandType Type
@@ -38,11 +42,14 @@ namespace CssDupFinder.Commands
 
         public void Execute()
         {
+            var progress = progressFactory.CreateInstance(folders.Length);
+
             var path = CreateDirectoryName(this.outputDirectory);
             
             generator.GenerateDependences(path);
 
             var dashboard = new DashboardReportModel();
+            var progressCompleted = 0;
 
             foreach (var folder in this.folders)
             {
@@ -71,10 +78,14 @@ namespace CssDupFinder.Commands
                     generator.GenerateCssReport(outputFullPath, fileReport);
                     dashboard.AddAnalysis(reportFileName, walker.CountSelectors, walker.CountDuplicates);
                 }
+
+                progress.Update(++progressCompleted);
             }
 
             var dashboardFileName = Path.Combine(path, "index.html");
             generator.GenerateDashboardReport(dashboardFileName, dashboard);
+
+            progress.Complete();
         }
 
         protected virtual String CreateDirectoryName(String basePath)
